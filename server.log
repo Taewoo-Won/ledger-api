@@ -1,0 +1,27 @@
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName UP-TO-DATE
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.0)
+
+2026-07-06T11:16:05.725Z  INFO 1153317 --- [ledger-api] [           main] com.ledger.api.LedgerApiApplication      : Starting LedgerApiApplication using Java 21.0.11 with PID 1153317 (/root/ledger-api/build/classes/java/main started by root in /root/ledger-api)
+2026-07-06T11:16:05.740Z  INFO 1153317 --- [ledger-api] [           main] com.ledger.api.LedgerApiApplication      : No active profile set, falling back to 1 default profile: "default"
+2026-07-06T11:16:07.429Z  INFO 1153317 --- [ledger-api] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-07-06T11:16:07.470Z  INFO 1153317 --- [ledger-api] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-06T11:16:07.472Z  INFO 1153317 --- [ledger-api] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-07-06T11:16:07.677Z  INFO 1153317 --- [ledger-api] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1783 ms
+2026-07-06T11:16:08.681Z  INFO 1153317 --- [ledger-api] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-07-06T11:16:08.695Z  INFO 1153317 --- [ledger-api] [           main] com.ledger.api.LedgerApiApplication      : Started LedgerApiApplication in 3.964 seconds (process running for 5.206)
+2026-07-06T11:16:20.935Z  INFO 1153317 --- [ledger-api] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-06T11:16:20.936Z  INFO 1153317 --- [ledger-api] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-06T11:16:20.940Z  INFO 1153317 --- [ledger-api] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
