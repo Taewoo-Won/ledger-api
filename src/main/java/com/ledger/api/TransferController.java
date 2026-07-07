@@ -1,0 +1,25 @@
+package com.ledger.api;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class TransferController {
+
+    private final Bank bank = new Bank();
+
+    public TransferController() {
+        bank.createAccount("a", "이름", 2100);
+        bank.createAccount("b", "이름", 3500);
+        bank.createAccount("platform", "플랫폼", 0);
+    }
+
+    @PostMapping("/transfer")
+    public String transfer(@RequestBody TransferRequest request) {
+        bank.transfer(request.fromId(), request.toId(), request.amount(), request.idempotencyKey());
+        return "a: " + bank.getAccount("a").getBalance()
+             + ", b: " + bank.getAccount("b").getBalance()
+             + ", platform: " + bank.getAccount("platform").getBalance();
+    }
+}
