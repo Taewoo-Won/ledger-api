@@ -1,15 +1,20 @@
 # ledger-api
 
-mini-ledger(순수 Java 원장)를 Spring Boot HTTP API로 감싼 학습 프로젝트.
-도메인 로직(검증→실행→기록, 멱등성, 원자성, 복식부기)은
-[mini-ledger](https://github.com/Taewoo-Won/mini-ledger)에서 수정 없이 이식.
+결제·정산 백엔드를 목표로 한 학습 프로젝트. 순수 Java로 만든 결제 원장(mini-ledger)을 Spring Boot HTTP API로 확장 중.
 
-## Endpoints
-- `GET /health` — 서버 상태 확인
-- `POST /transfer` — 이체 (멱등성 키 필수). 같은 키 재시도 = 결과 한 번만 반영.
+## 현재 기능
+- `GET /health` — 서버 생존 확인
+- `POST /transfer` — 계좌 이체 (수수료 정산 포함)
+  - **멱등성**: 같은 idempotencyKey 재요청 시 중복 처리 방지 (Stripe/Toss 패턴, HTTP 검증 완료)
+  - **복식부기 검증**: 매 이체마다 시스템 전체 잔액 합 = 0 확인
+
+## 스택
+Java 21 · Spring Boot · Gradle
 
 ## 실행
-`./gradlew bootRun` → localhost:8080
+./gradlew bootRun
+curl -X POST localhost:8080/transfer -H "Content-Type: application/json" \
+  -d '{"fromId":"a","toId":"b","amount":1000,"idempotencyKey":"key-1"}'
 
-## 한계 (의도된 학습 단계)
-인메모리 — 재시작 시 상태 소멸. 영속성은 다음 단계(WAL)에서 직접 구현.
+## 다음
+예외 → HTTP 상태코드 번역 (잔액 부족 500 → 4xx) · 영속성(8월, WAL)
