@@ -3,6 +3,10 @@ package com.ledger.api;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
 
 @RestController
 public class TransferController {
@@ -21,5 +25,10 @@ public class TransferController {
         return "a: " + bank.getAccount("a").getBalance()
              + ", b: " + bank.getAccount("b").getBalance()
              + ", platform: " + bank.getAccount("platform").getBalance();
+    }
+
+        @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<String> handleInsufficientBalance(InsufficientBalanceException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이체 실패: " + e.getMessage());
     }
 }
