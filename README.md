@@ -18,3 +18,17 @@ curl -X POST localhost:8080/transfer -H "Content-Type: application/json" \
 
 ## 다음
 예외 → HTTP 상태코드 번역 (잔액 부족 500 → 4xx) · 영속성(8월, WAL)
+
+## 에러 응답 형식
+
+이체 실패 시 HTTP 400과 함께 아래 JSON을 반환한다:
+
+    {"code": "INSUFFICIENT_BALANCE", "message": "잔액이 충분하지 않습니다"}
+
+| code | 의미 |
+|---|---|
+| ACCOUNT_NOT_FOUND | 존재하지 않는 계좌 id |
+| INVALID_AMOUNT | 금액이 0 이하 |
+| INSUFFICIENT_BALANCE | 출금 계좌 잔액 부족 |
+
+`code`는 기계 판별용 불변 상수(변경 안 됨), `message`는 사람에게 보여줄 문장(변경될 수 있음).
