@@ -36,3 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 server.log
+
+# WAL 런타임 로그 (append-only, 실행 중 생성 — 버전 관리 대상 아님)
+wal.log
+*.wal
