@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class TransferController {
 
     private final Bank bank = new Bank();
+    private final WalWriter wal = new WalWriter("wal.log");
 
     public TransferController() {
         bank.createAccount("a", "이름", 2100);
@@ -20,7 +21,12 @@ public class TransferController {
 
     @PostMapping("/transfer")
     public String transfer(@RequestBody TransferRequest request) {
+        long seq = wal.nextSeq();
+        wal.append(new WalEntry(seq, "BEGIN", request.fromId(), request.toId(),
+                                request.amount(), request.idempotencyKey()));
         bank.transfer(request.fromId(), request.toId(), request.amount(), request.idempotencyKey());
+        wal.append(new WalEntry(seq, "COMMIT", request.fromId(), request.toId(),
+                                request.amount(), request.idempotencyKey()));
         return "a: " + bank.getAccount("a").getBalance()
              + ", b: " + bank.getAccount("b").getBalance()
              + ", platform: " + bank.getAccount("platform").getBalance();
