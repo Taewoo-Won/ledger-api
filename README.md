@@ -47,3 +47,15 @@ curl -X POST localhost:8080/transfer -H "Content-Type: application/json" \
 WAL의 원칙은 "상태를 바꾸기 전에 무엇을 바꿀지 먼저 로그에 적는다"이다.
 이 로그가 있으면 재시작 시 재생(replay)으로 상태를 복원할 수 있고(2),
 미완료 연산을 판별해 되돌릴 수 있다(3).
+
+### 동작 확인 (실측)
+
+이체 1건 실행 후 `wal.log`:
+
+```
+1|BEGIN|a|b|500|wal-1
+1|COMMIT|a|b|500|wal-1
+```
+
+같은 seq에 phase만 다른 두 줄 — 상태를 바꾸기 전에 BEGIN, 바꾼 뒤에 COMMIT.
+COMMIT 줄이 없는 seq는 미완료 연산이다.
