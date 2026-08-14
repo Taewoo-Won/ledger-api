@@ -17,6 +17,14 @@ public class TransferController {
         bank.createAccount("a", "이름", 2100);
         bank.createAccount("b", "이름", 3500);
         bank.createAccount("platform", "플랫폼", 0);
+
+        java.util.Set<Long> unfinished = new WalReader("wal.log").unfinishedSeqs();
+        if (unfinished.isEmpty()) {
+            System.out.println("[WAL] 미완료 이체 없음 — 정상 종료 상태에서 시작");
+        } else {
+            System.out.println("[WAL] 미완료 이체 발견: " + unfinished
+                    + " — 직전 실행에서 BEGIN 후 COMMIT을 못 남긴 연산이다");
+        }
     }
 
     @PostMapping("/transfer")
