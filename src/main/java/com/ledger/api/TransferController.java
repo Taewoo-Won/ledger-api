@@ -23,7 +23,14 @@ public class TransferController {
             System.out.println("[WAL] 미완료 이체 없음 — 정상 종료 상태에서 시작");
         } else {
             System.out.println("[WAL] 미완료 이체 발견: " + unfinished
-                    + " — 직전 실행에서 BEGIN 후 COMMIT을 못 남긴 연산이다");
+                    + " — BEGIN 후 COMMIT을 못 남긴 연산이다. ABORT로 마감한다");
+            for (WalEntry e : new WalReader("wal.log").readAll()) {
+                if ("BEGIN".equals(e.phase()) && unfinished.contains(e.seq())) {
+                    wal.append(new WalEntry(e.seq(), "ABORT", e.fromId(), e.toId(),
+                                            e.amount(), e.idempotencyKey()));
+                    System.out.println("[WAL] seq " + e.seq() + " -> ABORT 기록");
+                }
+            }
         }
     }
 

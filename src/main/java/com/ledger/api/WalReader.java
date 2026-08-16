@@ -45,7 +45,7 @@ public class WalReader {
         Set<Long> done = new HashSet<>();
         for (WalEntry e : readAll()) {
             if ("BEGIN".equals(e.phase())) begun.add(e.seq());
-            else if ("COMMIT".equals(e.phase())) done.add(e.seq());
+            else if ("COMMIT".equals(e.phase()) || "ABORT".equals(e.phase())) done.add(e.seq());
         }
         begun.removeAll(done);
         return begun;
