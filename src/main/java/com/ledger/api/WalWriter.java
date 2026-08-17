@@ -14,10 +14,20 @@ import java.util.concurrent.atomic.AtomicLong;
 public class WalWriter {
 
     private final Path path;
-    private final AtomicLong seq = new AtomicLong(0);
+    private final AtomicLong seq;
 
     public WalWriter(String fileName) {
         this.path = Path.of(fileName);
+        this.seq = new AtomicLong(maxSeqInLog());   // 재시작해도 로그의 마지막 번호를 이어받는다
+    }
+
+    /** 기존 로그의 최대 seq. 로그가 없으면 0. */
+    private long maxSeqInLog() {
+        long max = 0;
+        for (WalEntry e : new WalReader(path.toString()).readAll()) {
+            if (e.seq() > max) max = e.seq();
+        }
+        return max;
     }
 
     /** 이체 하나에 seq 하나. BEGIN과 COMMIT은 같은 seq를 공유한다. */
